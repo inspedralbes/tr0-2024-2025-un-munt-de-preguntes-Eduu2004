@@ -1,6 +1,8 @@
 # Documentació bàsica del projecte
 Alguns dels punts que han de quedar explicats:
  * Objectius
+ * Prototip
+  * [Enllaç Prototip](https://design.penpot.app/#/view/f5fe9278-89db-81e9-8004-faf43266f1db?page-id=f5fe9278-89db-81e9-8004-faf43266f1dc&section=interactions&index=0&share-id=c04641ea-355e-80b8-8004-fb334b88ecf5)
  * Arquitectura bàsica
    * Tecnologies utilitzades
    * Interrelació entre els diversos components
