@@ -1,0 +1,124 @@
+{
+  "preguntes": [
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Titanic'?",
+      "resposta_correcta": "1997",
+      "respostes_incorrectes": ["1995", "1999", "2000"],
+      "imatge": "0.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Jurassic Park'?",
+      "resposta_correcta": "1993",
+      "respostes_incorrectes": ["1991", "1995", "1997"],
+      "imatge": "1.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'El Padri'?",
+      "resposta_correcta": "1972",
+      "respostes_incorrectes": ["1974", "1976", "1980"],
+      "imatge": "2.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Matrix'?",
+      "resposta_correcta": "1999",
+      "respostes_incorrectes": ["1997", "2001", "2003"],
+      "imatge": "3.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Forrest Gump'?",
+      "resposta_correcta": "1994",
+      "respostes_incorrectes": ["1992", "1996", "1998"],
+      "imatge": "4.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Star Wars: Una Nova Esperança'?",
+      "resposta_correcta": "1977",
+      "respostes_incorrectes": ["1975", "1979", "1981"],
+      "imatge": "5.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Avatar'?",
+      "resposta_correcta": "2009",
+      "respostes_incorrectes": ["2007", "2011", "2013"],
+      "imatge": "6.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'El Senyor dels Anells: La Comunitat de l'Anell'?",
+      "resposta_correcta": "2001",
+      "respostes_incorrectes": ["1999", "2003", "2005"],
+      "imatge": "7.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Gladiator'?",
+      "resposta_correcta": "2000",
+      "respostes_incorrectes": ["1998", "2002", "2004"],
+      "imatge": "8.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Harry Potter i la Pedra Filosofal'?",
+      "resposta_correcta": "2001",
+      "respostes_incorrectes": ["2000", "2002", "2004"],
+      "imatge": "9.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'E.T. l'Extra-Terrestre'?",
+      "resposta_correcta": "1982",
+      "respostes_incorrectes": ["1980", "1984", "1986"],
+      "imatge": "10.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'La Vida és Bella'?",
+      "resposta_correcta": "1997",
+      "respostes_incorrectes": ["1995", "1999", "2001"],
+      "imatge": "11.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Inception'?",
+      "resposta_correcta": "2010",
+      "respostes_incorrectes": ["2008", "2012", "2014"],
+      "imatge": "12.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Indiana Jones: Els Caçadors de l'Arca Perduda'?",
+      "resposta_correcta": "1981",
+      "respostes_incorrectes": ["1979", "1983", "1985"],
+      "imatge": "13.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'El Rei Lleó'?",
+      "resposta_correcta": "1994",
+      "respostes_incorrectes": ["1992", "1996", "1998"],
+      "imatge": "14.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Toy Story'?",
+      "resposta_correcta": "1995",
+      "respostes_incorrectes": ["1993", "1997", "1999"],
+      "imatge": "15.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Casablanca'?",
+      "resposta_correcta": "1942",
+      "respostes_incorrectes": ["1940", "1944", "1946"],
+      "imatge": "16.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Pulp Fiction'?",
+      "resposta_correcta": "1994",
+      "respostes_incorrectes": ["1992", "1996", "1998"],
+      "imatge": "17.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Blade Runner'?",
+      "resposta_correcta": "1982",
+      "respostes_incorrectes": ["1980", "1984", "1986"],
+      "imatge": "18.jpeg"
+    },
+    {
+      "pregunta": "En quin any es va estrenar la pel·lícula 'Shrek'?",
+      "resposta_correcta": "2001",
+      "respostes_incorrectes": ["1999", "2003", "2005"],
+      "imatge": "19.jpeg"
+    }
+  ]
+}
