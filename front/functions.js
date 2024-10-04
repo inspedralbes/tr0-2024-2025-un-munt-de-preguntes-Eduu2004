@@ -1,40 +1,62 @@
 let currentQuestion = 0;
-let respostaCorrecta = 0;
+let numCorrectes = 0;  // Només per comptar el nombre de respostes correctes
 let data;
 let respostesUsuari = [];
-let timeLeft = 30; 
-let timerInterval; 
+let tempsContador = 30; 
+let contador;
 
-// Funció per començar el joc
 function iniciarJoc() {
-  // Obtenim les preguntes al carregar la pàgina des de getPreguntes.php
-  fetch('http://localhost/public_html/Projecte0/getPreguntes.php')
-    .then(response => response.json())
+  fetch(`http://localhost/public_html/Projecte0/getPreguntes.php`)
+    .then(response => {
+      return response.json();
+    })
     .then(jsonData => {
       data = jsonData;
       mostrarPregunta();  
-      iniciarTemporitzador(); // Iniciem el temporitzador quan comença la primera pregunta
+      iniciarTemporitzador();
+    })
+    .catch(error => {
+      console.error(error);
+      document.getElementById('preguntesContainer').innerHTML = `<p>${error.message}</p>`;
     });
 }
 
-// Funció per mostrar una pregunta
 function mostrarPregunta() {
-  let preguntaActual = data[currentQuestion];
-  let htmlString = `<h3>${preguntaActual.pregunta}</h3>`;
-  htmlString += `<img src="img/${currentQuestion}.jpeg" class="img" alt="Imatge de la pregunta ${currentQuestion}">`;
+  if (currentQuestion < data.length) {
+    let preguntaActual = data[currentQuestion];
+    let htmlString = `<h3>${preguntaActual.pregunta}</h3>`;
+    
 
-  let opcions = [preguntaActual.resposta_correcta, ...preguntaActual.respostes_incorrectes];
-  
-  opcions = opcions.sort(() => Math.random() - 0.5);
-  
-  opcions.forEach((resposta) => {
-    htmlString += `<button onclick="seleccionarResposta('${resposta}', '${preguntaActual.resposta_correcta}')">${resposta}</button><br>`;
-  });
+    if (preguntaActual.imatge) {
+      htmlString += `<img src="img/${preguntaActual.imatge}" class="img" alt="Imatge de la pregunta ${currentQuestion}">`;
+    }
 
-  document.getElementById('preguntesContainer').innerHTML = htmlString;
+    let opcions = [
+      preguntaActual.resposta_correcta,
+      preguntaActual.resposta_incorrecta1,
+      preguntaActual.resposta_incorrecta2,
+      preguntaActual.resposta_incorrecta3
+    ];
+
+    opcions = opcions.sort(() => Math.random() - 0.5);  
+
+    let opcionsContainer = document.createElement('div'); 
+
+    opcions.forEach((resposta) => {
+      let botoResposta = document.createElement('button');
+      botoResposta.innerText = resposta;
+
+      botoResposta.addEventListener('click', () => seleccionarResposta(resposta, preguntaActual.resposta_correcta));
+      opcionsContainer.appendChild(botoResposta);
+    });
+
+    document.getElementById('preguntesContainer').innerHTML = htmlString;
+    document.getElementById('preguntesContainer').appendChild(opcionsContainer);
+  } else {
+    mostrarPuntuacioFinal();
+  }
 }
 
-// Funció per seleccionar una resposta
 function seleccionarResposta(respostaSeleccionada, respostaCorrecta) {
   let resultat = document.createElement('p');
   
@@ -43,7 +65,7 @@ function seleccionarResposta(respostaSeleccionada, respostaCorrecta) {
   if (respostaSeleccionada === respostaCorrecta) {
     resultat.innerHTML = "Correcte!";
     resultat.style.color = "green";
-    respostaCorrecta++; // Incrementem el comptador de respostes correctes
+    numCorrectes++;  // Incrementa les respostes correctes
   } else {
     resultat.innerHTML = "Incorrecte!";
     resultat.style.color = "red";
@@ -51,32 +73,34 @@ function seleccionarResposta(respostaSeleccionada, respostaCorrecta) {
 
   document.getElementById('preguntesContainer').appendChild(resultat);
 
-  // Mostrem la següent pregunta si no s'ha acabat el temps
+  // Mostra la següent pregunta després d'un retard de 1 segon
   setTimeout(() => {
     currentQuestion++;
-    if (timeLeft > 0) {
+    if (currentQuestion < data.length && tempsContador > 0) {
       mostrarPregunta();
+    } else {
+      mostrarPuntuacioFinal();
     }
-  }, 1000);
+  }, 500);
 }
 
-// Funció per iniciar el temporitzador
 function iniciarTemporitzador() {
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    document.getElementById('timer').innerText = `Temps restant: ${timeLeft} segons`;
-
-    // Si s'acaba el temps, finalitzem el joc
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval); // Aturem el temporitzador
-      mostrarPuntuacioFinal(); // Mostrem la puntuació final
+  contador = setInterval(() => {
+    tempsContador--;
+    document.getElementById('timer').innerText = `Temps restant: ${tempsContador} segons`;
+    
+    if (tempsContador <= 0) {
+      clearInterval(contador);
+      mostrarPuntuacioFinal();
     }
   }, 1000);
 }
 
-// Funció per mostrar la puntuació final
 function mostrarPuntuacioFinal() {
-  // Enviem les respostes de l'usuari a finalitza.php
+  // Atura el temporitzador si encara està corrent
+  clearInterval(contador);
+
+  // Envia les respostes a la base de dades
   fetch('http://localhost/public_html/Projecte0/finalitza.php', {
     method: 'POST',
     headers: {
@@ -85,20 +109,29 @@ function mostrarPuntuacioFinal() {
     body: JSON.stringify(respostesUsuari)
   })
   .then(response => response.json())
-  .then(data => {
-    document.getElementById('preguntesContainer').innerHTML = `<h3>Has encertat ${data.correctes}/${data.total} preguntes.</h3>`;
-    document.getElementById('preguntesContainer').innerHTML += `<button onclick="reiniciarJoc()">Tornar a jugar</button>`;
-  });
+  .then(data => { 
+    document.getElementById('preguntesContainer').innerHTML = `<h3>Has encertat ${numCorrectes}/${data.total} preguntes.</h3>`;
+    const reiniciarBoto = document.getElementById('reiniciarBoto');
+    reiniciarBoto.style.display = 'block';
+    reiniciarBoto.addEventListener('click', reiniciarJoc);
+  })
+  .catch(error => console.error('Error en finalitzar el joc:', error));
 }
 
-// Funció per reiniciar el joc
 function reiniciarJoc() {
   currentQuestion = 0;
-  respostaCorrecta = 0;
+  numCorrectes = 0;  
   respostesUsuari = [];
-  timeLeft = 30; // Restablir el temps
-  iniciarJoc(); // Tornar a començar el joc
+  tempsContador = 30; 
+  const reiniciarBoto = document.getElementById('reiniciarBoto');
+  reiniciarBoto.style.display = 'none';
+  iniciarJoc(); 
 }
 
-// Iniciar el joc en carregar la pàgina
-window.onload = iniciarJoc;
+function començarPartida() {
+  document.getElementById('començarBoto').style.display = 'none';
+  iniciarJoc();
+}
+
+document.getElementById('començarBoto').addEventListener('click', començarPartida);
+

@@ -1,14 +1,25 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include 'conexio.php';
 header('Content-Type: application/json');
 
-// Obtenim les preguntes
-$preguntes = json_decode(file_get_contents('preguntes.json'), true);
+$sql = "SELECT pregunta, resposta_correcta, resposta_incorrecta1, resposta_incorrecta2, resposta_incorrecta3, imatge FROM preguntes ORDER BY RAND()";
+$stmt = $conn->prepare($sql);
 
-// Obtenim el nombre de preguntes aleatòries que hem de retornar
-$nombrePreguntes = isset($_GET['num']) ? (int)$_GET['num'] : 5;
+if (!$stmt) {
+    echo json_encode(['error' => 'Error en la preparación de la consulta: ' . $conn->error]);
+    exit;
+}
 
-$preguntesSeleccionades = array_slice($preguntes['preguntes'], 0, $nombrePreguntes);
+$stmt->execute();
+$result = $stmt->get_result();
 
-// Retornem les preguntes sense modificar la resposta correcta
-echo json_encode($preguntesSeleccionades);
+$preguntes = [];
+while ($row = $result->fetch_assoc()) {
+    $preguntes[] = $row;
+}
+
+echo json_encode($preguntes);
 ?>

@@ -1,26 +1,34 @@
 <?php
 header('Content-Type: application/json');
+include 'conexio.php';
 
-// Les respostes correctes de l'usuari (les que s'envien des del frontend)
 $respostesUsuari = json_decode(file_get_contents('php://input'), true);
-
-// Aquí es carregarien les preguntes correctes (simulació)
-$preguntes = json_decode(file_get_contents('preguntes.json'), true);
-$preguntesCorrectes = array_column($preguntes['preguntes'], 'resposta_correcta');
-
-// Comprovem quantes respostes ha encertat l'usuari
 $correctes = 0;
 $total = count($respostesUsuari);
 
+$sql = "SELECT resposta_correcta FROM preguntes LIMIT ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $total);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$preguntesCorrectes = [];
+while ($row = $result->fetch_assoc()) {
+    $preguntesCorrectes[] = $row['resposta_correcta'];
+}
+
+// Comprovem respostes
 for ($i = 0; $i < $total; $i++) {
     if (isset($respostesUsuari[$i]) && $respostesUsuari[$i] === $preguntesCorrectes[$i]) {
         $correctes++;
     }
 }
 
-// Retornem la puntuació
 echo json_encode([
     'correctes' => $correctes,
     'total' => $total
 ]);
+
+$stmt->close();
+$conn->close();
 ?>
