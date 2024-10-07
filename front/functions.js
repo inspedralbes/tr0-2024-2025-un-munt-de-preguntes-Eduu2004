@@ -135,3 +135,23 @@ function començarPartida() {
 
 document.getElementById('començarBoto').addEventListener('click', començarPartida);
 
+// Funció per iniciar la migració
+function iniciarMigracio() {
+  document.getElementById('statusMigracio').innerText = "Iniciant la migració...";
+
+  fetch('http://localhost/public_html/Projecte0/migrate.php')
+    .then(response => {
+      return response.text();  
+    })
+    .then(resultat => {
+      document.getElementById('statusMigracio').innerHTML = `<p>${resultat}</p>`;
+    })
+    .catch(error => {
+      console.error('Error en iniciar la migració:', error);
+      document.getElementById('statusMigracio').innerHTML = `<p>Error: ${error.message}</p>`;
+    });
+}
+
+// Botó migració
+//document.getElementById('migrarBoto').addEventListener('click', iniciarMigracio);
+

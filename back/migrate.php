@@ -1,7 +1,7 @@
 <?php
 include 'conexio.php';
 
-// Crear taula preguntes
+
 $sql = "CREATE TABLE IF NOT EXISTS preguntes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pregunta VARCHAR(255) NOT NULL,
@@ -13,27 +13,26 @@ $sql = "CREATE TABLE IF NOT EXISTS preguntes (
 )";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Table 'preguntes' created successfully.<br>";
+    echo "La taula 'preguntes' ha estat creada correctament.<br>";
 } else {
-    echo "Error creating table: " . $conn->error . "<br>";
+    die("Error creant la taula: " . $conn->error . "<br>");
 }
 
-// Llegir fitxer JSON
 $jsonData = file_get_contents('preguntes.json');
-
-if ($jsonData === false) {
-    die("Error reading JSON file.<br>");
-}
-
 $preguntesArray = json_decode($jsonData, true);
+
+if (!$preguntesArray || !isset($preguntesArray['preguntes'])) {
+    die("Error llegint el fitxer JSON o estructura incorrecta.<br>");
+}
 
 $stmt = $conn->prepare("INSERT INTO preguntes (pregunta, resposta_correcta, resposta_incorrecta1, resposta_incorrecta2, resposta_incorrecta3, imatge) VALUES (?, ?, ?, ?, ?, ?)");
 
 if ($stmt === false) {
-    die("Error preparing statement: " . $conn->error . "<br>");
+    die("Error preparant la consulta: " . $conn->error . "<br>");
 }
 
 foreach ($preguntesArray['preguntes'] as $pregunta) {
+
     $stmt->bind_param("ssssss", 
         $pregunta['pregunta'], 
         $pregunta['resposta_correcta'], 
@@ -46,7 +45,7 @@ foreach ($preguntesArray['preguntes'] as $pregunta) {
     if ($stmt->execute()) {
         echo "Pregunta '" . $pregunta['pregunta'] . "' inserida correctament.<br>";
     } else {
-        echo "Error inserint pregunta: " . $stmt->error . "<br>";
+        echo "Error inserint la pregunta: " . $stmt->error . "<br>";
     }
 }
 
