@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: coral;
+    color: #333;
+}
+
+.container {
+    width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: coral;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.3em;
+}
+
+h3 {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: #555;
+}
+
+p {
+    margin: 1em 0;
+}
+
+img {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+a {
+    color: blue;
+    text-decoration: underline;
+}
